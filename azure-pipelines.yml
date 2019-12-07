@@ -4,7 +4,12 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+    - README.md
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -24,6 +29,7 @@ steps:
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
+      options: '-Drelease.version=$(GitVersion.NuGetVersionV2)'
       publishJUnitResults: false
       javaHomeOption: 'JDKVersion'
       mavenVersionOption: 'Default'
@@ -41,6 +47,7 @@ steps:
       tagSource: 'userSpecifiedTag'
       tag: '$(GitVersion.NuGetVersionV2)'
       title: '$(GitVersion.NuGetVersionV2)'
+      assets: '$(Build.SourcesDirectory)/api-key-module/target/*.jar'
       changeLogCompareToRelease: 'lastFullRelease'
       changeLogType: 'commitBased'
     

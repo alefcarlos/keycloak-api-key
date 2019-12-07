@@ -1,5 +1,7 @@
 # Keycloak ApiKey Auth
 
+[![Build Status](https://alefcarlos.visualstudio.com/PlusUltra/_apis/build/status/alefcarlos.keycloak-api-key?branchName=master)](https://alefcarlos.visualstudio.com/PlusUltra/_build/latest?definitionId=15&branchName=master)
+
 ### This module extends [https://github.com/zak905/keycloak-api-key-demo](https://github.com/zak905/keycloak-api-key-demo)
 
 The correlated article is [http://www.zakariaamine.com/2019-06-14/extending-keycloak
@@ -16,4 +18,4 @@ This is cool when using with [Keycloak Metrics SPI](https://github.com/aerogear/
 
 ## Running example
 
-Running: `mvn package && docker-compose up --build`
+Running: `mvn package -Drelease.version=0.1 && docker-compose up --build`

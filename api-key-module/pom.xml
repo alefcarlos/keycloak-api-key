@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.gwidgets</groupId>
         <artifactId>api-key-keycloak</artifactId>
-        <version>0.1</version>
+        <version>${release.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -6,7 +6,7 @@
 
   <groupId>com.gwidgets</groupId>
   <artifactId>api-key-keycloak</artifactId>
-  <version>0.1</version>
+  <version>${release.version}</version>
   <modules>
     <module>api-key-module</module>
   </modules>

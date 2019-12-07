@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+
+  keycloak:
+    build:
+      context: .
+      dockerfile: ./example/Dockerfile
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_USER: postgres
+      DB_ADDR: postgres
+      DB_PASSWORD: password
+    ports:
+    - "81:8080"
+
+  postgres:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak

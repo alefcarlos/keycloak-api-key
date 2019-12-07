@@ -20,6 +20,7 @@ steps:
     env:
       Action: '##vso[build.updatebuildnumber]'
       BuildVersion: $(GitVersion.NuGetVersionV2)
+
   - task: Maven@3
     inputs:
       mavenPomFile: 'pom.xml'
@@ -29,3 +30,17 @@ steps:
       mavenAuthenticateFeed: false
       effectivePomSkip: false
       sonarQubeRunAnalysis: false
+
+  - task: GitHubRelease@1
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    inputs:
+      gitHubConnection: 'Github'
+      repositoryName: '$(Build.Repository.Name)'
+      action: 'create'
+      target: '$(Build.SourceVersion)'
+      tagSource: 'userSpecifiedTag'
+      tag: '$(GitVersion.NuGetVersionV2)'
+      title: '$(GitVersion.NuGetVersionV2)'
+      changeLogCompareToRelease: 'lastFullRelease'
+      changeLogType: 'commitBased'
+    

@@ -5,6 +5,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
 
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
@@ -43,7 +44,7 @@ public class ApiKeyResource {
             event.event(EventType.LOGIN);
             event.user(result.get(0).getId());
             event.success();
-            response = Response.ok().build();
+            response = Response.ok().type(MediaType.APPLICATION_JSON).build();
         }
 
         return response;

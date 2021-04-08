@@ -16,11 +16,8 @@ pool:
 
 steps:
   - task: UseDotNet@2
-    displayName: 'Use .NET Core sdk'
     inputs:
-      packageType: sdk
       version: 2.1.x
-      installationPath: $(Agent.ToolsDirectory)/dotnet
 
   - task: GitVersion@5
     inputs:

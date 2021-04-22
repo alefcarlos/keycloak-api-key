@@ -38,13 +38,20 @@ public class ApiKeyResource {
 
         if (result.isEmpty()) {
             event.event(EventType.LOGIN_ERROR);
-            event.error("Invalid attempt for login using api-key");
+            event.error("Invalid attempt for login using api-key (no user found for this apiKey)");
             response = Response.status(401).build();
         } else {
-            event.event(EventType.LOGIN);
-            event.user(result.get(0).getId());
-            event.success();
-            response = Response.ok().type(MediaType.APPLICATION_JSON).build();
+            UserModel user = result.get(0);
+            event.user(user.getId());
+            if (user.isEnabled()) {
+                event.event(EventType.LOGIN);
+                event.success();
+                response = Response.ok().type(MediaType.APPLICATION_JSON).build();
+            } else {
+                event.event(EventType.LOGIN_ERROR);
+                event.error("Invalid attempt for login using api-key (user corresponding to this apiKey is disabled)");
+                response = Response.status(401).build();
+            }
         }
 
         return response;

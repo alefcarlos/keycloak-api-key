@@ -46,7 +46,8 @@ public class ApiKeyResource {
             if (user.isEnabled()) {
                 event.event(EventType.LOGIN);
                 event.success();
-                response = Response.ok().type(MediaType.APPLICATION_JSON).build();
+                String message = "{\"userID\": \"" + user.getId() + "\"}";
+                response = Response.ok().entity(message).type(MediaType.APPLICATION_JSON).build();
             } else {
                 event.event(EventType.LOGIN_ERROR);
                 event.error("Invalid attempt for login using api-key (user corresponding to this apiKey is disabled)");

@@ -24,7 +24,7 @@
     </build>
 
     <properties>
-        <keyclock.version>9.0.3</keyclock.version>
+        <keyclock.version>13.0.0</keyclock.version>
     </properties>
 
 

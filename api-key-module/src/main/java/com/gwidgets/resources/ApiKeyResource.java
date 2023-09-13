@@ -1,11 +1,12 @@
 package com.gwidgets.resources;
 
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.MediaType;
+import java.util.stream.Stream;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
@@ -30,18 +31,18 @@ public class ApiKeyResource {
         RealmModel realm = session.getContext().getRealm();
 
         logger.info("Trying to validate apiKey: " + apiKey + " at realm " + realm.getName());
-        List<UserModel> result = session.userStorageManager().searchForUserByUserAttribute("api-key", apiKey, realm);
+        Stream<UserModel> result = session.users().searchForUserByUserAttributeStream(realm, "apiKey", apiKey);
+        UserModel user = result.findFirst().orElse(null);
 
         EventBuilder event = new EventBuilder(realm, session, session.getContext().getConnection());
         event.detail("api-key", apiKey);
         Response response;
 
-        if (result.isEmpty()) {
+        if (user == null) {
             event.event(EventType.LOGIN_ERROR);
             event.error("Invalid attempt for login using api-key (no user found for this apiKey)");
             response = Response.status(401).build();
         } else {
-            UserModel user = result.get(0);
             event.user(user.getId());
             if (user.isEnabled()) {
                 event.event(EventType.LOGIN);
